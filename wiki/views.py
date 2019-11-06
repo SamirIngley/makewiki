@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from wiki.models import Page
-from django.views import DetailView, ListView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.http import HttpResponse
 # Create your views here.
-
 
 class PageList(ListView):
     """
@@ -12,11 +13,18 @@ class PageList(ListView):
       3. Replace pass below with the code to render a template named `list.html`.
     """
     model = Page
+    context_object_name = "pages"
+    template_name = "list.html"
 
-    def get(self, request, username, slug):
-        """ Returns a list of wiki pages. """
-        pass
-
+    # def get(self, request):
+    #     """ Returns a list of wiki pages. """
+    #     context = {
+    #         #"myvar":"some value"
+    #         "pages":Page.objects.all()
+    #      }
+    #     # render(request, file, {})
+    #     # HttpResponse("you're looking at homepage")
+    #     return render(request, "list.html", context)
 
 class PageDetailView(DetailView):
     """
@@ -36,10 +44,16 @@ class PageDetailView(DetailView):
            - Message Content: REPLACE_WITH_PAGE_TITLE has been successfully updated.
     """
     model = Page
+    context_object_name = "page"
+    template_name = "detail.html"
 
     def get(self, request, slug):
         """ Returns a specific of wiki page by slug. """
-        pass
+        context = {
+            "page": Page.objects.get(slug=slug)
+        }
+
+        return render(request, "detail.html", context)
 
     def post(self, request, slug):
         pass
