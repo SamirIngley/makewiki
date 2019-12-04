@@ -3,6 +3,7 @@ from wiki.models import Page
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.http import HttpResponse
+from wiki.forms import forms
 # Create your views here.
 
 class PageList(ListView):
@@ -11,26 +12,28 @@ class PageList(ListView):
       1. On GET, display a homepage that shows all Pages in your wiki.
       2. Replace this CHALLENGE text with a descriptive docstring for PageList.
       3. Replace pass below with the code to render a template named `list.html`.
+
+      This func renders list.html page which displays the list of pages on the home screen!
     """
     model = Page
     context_object_name = "pages"
     template_name = "list.html"
 
-    # def get(self, request):
-    #     """ Returns a list of wiki pages. """
-    #     context = {
-    #         #"myvar":"some value"
-    #         "pages":Page.objects.all()
-    #      }
-    #     # render(request, file, {})
-    #     # HttpResponse("you're looking at homepage")
-    #     return render(request, "list.html", context)
+    def get(self, request):
+        """ Returns a list of wiki pages. """
+        context = {
+            #"myvar":"some value"
+            "pages":Page.objects.all()
+         }
+        # render(request, file, {})
+        # HttpResponse("you're looking at homepage")
+        return render(request, "list.html", context)
 
 class PageDetailView(DetailView):
     """
     CHALLENGES:
       1. On GET, render a template named `page.html`.
-      2. Replace this docstring with a description of what thos accomplishes.
+      2. Replace this docstring with a description of what this accomplishes.
 
     STRETCH CHALLENGES:
       1. Import the PageForm class from forms.py.
